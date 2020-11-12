@@ -1,0 +1,12 @@
+#!/bin/sh
+sudo -i -u postgres
+sudo launch load -w /Library/PostgreSQL/12/bin/psql
+psql -h $HOSTNAME -U $USERNAME $DATABASE << EOF
+
+removecount = DATABASE.runQuery(“SELECt COUNT(provider_id) FROM doctors WHERE provider LIKE ‘%John%’”)
+removearray() = DATABASE.runQuery(“SELECt provider_id FROM doctors WHERE provider LIKE ‘%John%’”)
+for i in removecount
+do 
+	item_remove(doctors, removearray(i))
+done
+EOF
